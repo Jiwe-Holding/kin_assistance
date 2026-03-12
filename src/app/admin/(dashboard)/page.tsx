@@ -3,6 +3,8 @@ import Link from 'next/link';
 import prisma from '@/lib/prisma';
 import { startOfDay, startOfWeek } from 'date-fns';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminDashboard() {
   // Fetch real stats from Prisma
   const now = new Date();
