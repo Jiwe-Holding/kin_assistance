@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle2, MapPin, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const containerVariants = {
+const containerVariants: any = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -16,7 +16,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: any = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -25,7 +25,7 @@ const itemVariants = {
   },
 };
 
-const statsVariants = {
+const statsVariants: any = {
   hidden: { opacity: 0, scale: 0.8 },
   visible: {
     opacity: 1,
@@ -34,7 +34,7 @@ const statsVariants = {
   },
 };
 
-const statItemVariants = {
+const statItemVariants: any = {
   hidden: { opacity: 0, x: -20 },
   visible: { opacity: 1, x: 0 },
 };
