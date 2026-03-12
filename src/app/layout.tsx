@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "KinAssistance | Votre assistant personnel à Kinshasa",
@@ -30,10 +29,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className="scroll-smooth">
       <body className="antialiased min-h-screen flex flex-col">
-        <div className="flex-grow">
-          {children}
-        </div>
-        <Footer />
+        {children}
       </body>
     </html>
   );

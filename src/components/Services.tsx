@@ -1,6 +1,10 @@
+"use client";
+
 import { ShoppingBag, HeartPulse, Receipt, FileText, Zap, PackageOpen } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const services = [
+  // ... (keeping services array identical)
   {
     title: 'Courses au marché',
     description: 'Vos produits frais sélectionnés avec soin au marché et livrés chez vous.',
@@ -39,39 +43,77 @@ const services = [
   },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+    },
+  },
+};
+
 export default function Services() {
   return (
     <section id="services" className="py-24 bg-slate-50 relative overflow-hidden">
       {/* Subtle background decoration & Ambient blobs for Glassmorphism */}
       <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center opacity-5"></div>
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-orange-400/10 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+      
+      {/* Animated Blobs */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-400/15 rounded-full blur-[120px] -z-10 pointer-events-none animate-float-slow"></div>
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-orange-400/15 rounded-full blur-[120px] -z-10 pointer-events-none animate-float-slow" style={{ animationDelay: '-5s' }}></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-2xl mx-auto mb-16"
+        >
           <h2 className="text-sm font-semibold text-primary tracking-wide uppercase mb-3 drop-shadow-sm">
             Nos Services
           </h2>
           <p className="text-3xl font-extrabold text-slate-900 sm:text-4xl">
             Une gamme complète de services pour simplifier votre vie urbaine.
           </p>
-        </div>
+        </motion.div>
 
         {/* Services Grid (Glassmorphism Cards) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
-              <div
+              <motion.div
                 key={index}
-                className="group relative bg-white/60 backdrop-blur-xl rounded-2xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/50 hover:bg-white/80 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-white transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
+                variants={itemVariants}
+                whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                className="group relative bg-white/60 backdrop-blur-xl rounded-2xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/50 hover:bg-white/90 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] hover:border-white transition-all duration-500 overflow-hidden"
               >
                 {/* Internal card reflection */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
 
-                <div className={`inline-flex relative z-10 items-center justify-center rounded-xl md:rounded-2xl p-4 md:p-5 mb-6 ${service.color} transition-transform duration-300 group-hover:scale-110 ease-out shadow-sm border border-white/50`}>
+                <div className={`inline-flex relative z-10 items-center justify-center rounded-xl md:rounded-2xl p-4 md:p-5 mb-6 ${service.color} transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg ease-out shadow-sm border border-white/50`}>
                   <Icon className="h-7 w-7 md:h-8 md:w-8" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors relative z-10">
@@ -82,11 +124,11 @@ export default function Services() {
                 </p>
                 
                 {/* Subtle bottom accent line that expands on hover */}
-                <div className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary to-secondary w-0 group-hover:w-full transition-all duration-500 rounded-b-2xl"></div>
-              </div>
+                <div className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary to-secondary w-0 group-hover:w-full transition-all duration-700 rounded-b-2xl"></div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
       </div>
     </section>

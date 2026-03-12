@@ -1,6 +1,10 @@
+"use client";
+
 import { ShieldCheck, Camera, Clock, DollarSign, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const trustPoints = [
+  // ... (keeping trustPoints array identical)
   {
     title: 'Agents locaux vérifiés',
     description: 'Chaque agent passe par une vérification stricte de son identité et et de ses références avant de vous servir.',
@@ -33,19 +37,48 @@ const trustPoints = [
   },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.7,
+      ease: [0.23, 1, 0.32, 1],
+    },
+  },
+};
+
 export default function Trust() {
   return (
     <section className="py-24 bg-slate-900 border-y border-slate-800 relative overflow-hidden">
       
-      {/* Decorative background elements & Glassmorphism ambient mix */}
+      {/* Decorative background elements & Glassmorphism ambient mix with animations */}
       <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.03] pointer-events-none"></div>
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-primary/30 rounded-full blur-[100px] -z-10 animate-pulse pointer-events-none" style={{ animationDuration: '4s' }}></div>
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-[100px] -z-10 animate-pulse pointer-events-none" style={{ animationDuration: '5s' }}></div>
+      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] -z-10 pointer-events-none animate-float-slow"></div>
+      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-secondary/15 rounded-full blur-[120px] -z-10 pointer-events-none animate-float-slow" style={{ animationDelay: '-5s' }}></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-2xl mx-auto mb-16"
+        >
           <h2 className="text-sm font-semibold text-secondary tracking-wide uppercase mb-3">
             Garanties
           </h2>
@@ -55,37 +88,44 @@ export default function Trust() {
           <p className="mt-4 text-lg text-slate-400">
             Votre tranquillité d'esprit est notre priorité absolue. Nous avons mis en place des standards stricts de qualité.
           </p>
-        </div>
+        </motion.div>
 
         {/* Trust Points Grid */}
-        {/* We have 5 items. Let's make an interesting layout: Top row 3, bottom row 2 centered (or just a responsive grid) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center"
+        >
           {trustPoints.map((point, index) => {
             const Icon = point.icon;
-            // For the 5 items layout, make the last two span nicely if in a 3 col layout
-            const gridClass = index >= 3 ? 'lg:col-span-1 lg:max-w-md lg:mx-auto lg:w-[150%] lg:translate-x-[-25%] xl:w-full xl:translate-x-0' : '';
-            // A simpler approach for the last row is to just let grid auto-flow but we will handle it with flex on md+ if needed
             return (
-              <div
+              <motion.div
                 key={index}
-                className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.15)] hover:bg-white/10 hover:border-white/20 transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden group"
+                variants={cardVariants}
+                whileHover={{ y: -8, backgroundColor: "rgba(255, 255, 255, 0.08)" }}
+                className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.15)] hover:border-white/20 transition-all duration-500 relative overflow-hidden group"
               >
                 {/* Subtle Inner Reflection */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
 
-                <div className={`relative z-10 inline-flex items-center justify-center rounded-xl p-3 mb-5 ${point.color} shadow-sm backdrop-blur-sm border border-white/20`}>
+                <motion.div 
+                  whileHover={{ rotate: 5, scale: 1.1 }}
+                  className={`relative z-10 inline-flex items-center justify-center rounded-xl p-3 mb-5 ${point.color} shadow-sm backdrop-blur-sm border border-white/20 transition-all duration-300 group-hover:shadow-lg`}
+                >
                   <Icon className="h-6 w-6" />
-                </div>
+                </motion.div>
                 <h4 className="relative z-10 text-xl font-bold text-white mb-2">
                   {point.title}
                 </h4>
-                <p className="relative z-10 text-slate-400 text-sm leading-relaxed">
+                <p className="relative z-10 text-slate-400 text-sm leading-relaxed group-hover:text-slate-300 transition-colors">
                   {point.description}
                 </p>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
       </div>
     </section>
